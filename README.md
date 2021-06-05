@@ -52,8 +52,74 @@ To deploy the API, run
 ```
 serverless deploy
 ```
+---
+## Endpoints
 
+### Send email
 
+**POST** `/production/email`
+
+Request Body
+```json
+{
+    "provider": "",
+    "to": [],
+    "cc": [],
+    "bcc": [],
+    "subject": "",
+    "body": ""
+}
+```
+
+| Field | Type | | Details |
+| --- | --- | --- | --- |
+| provider | string | Required | Currently only allowed `mailchimp` or `sendgrid` |
+| to | array | Required | List of emails to send to |
+| subject | string | Required | Subject of email |
+| body | string | Required | Content of the email |
+| cc | array | | list of emails to be sent as carbon copy |
+| bcc | array | | list of emails to be sent as blind carbon copy |
+
+**Response**
+
+Response varies depending of the provider.
+
+Mailchimp
+```json
+{
+    "message": [
+        {
+            "email": "foo@bar.com",
+            "status": "sent",
+            "_id": "unique id by mailchimp",
+            "reject_reason": null
+        }
+    ],
+    "success": true
+}
+```
+
+Sendgrid
+```json
+{
+    "message": {
+        "statusCode": 202,
+        "body": ""
+    },
+    "success": true
+}
+```
+
+Both responses have a flag `success` which is true when the API is successful. When `success` flag is false, the system will return a message and the reason
+
+```json
+{
+    "success": false,
+    "message": "Invalid email list (to)"
+}
+```
+
+---
 ## TODO
 
 - Integrate AWS SES
