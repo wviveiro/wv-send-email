@@ -2,6 +2,7 @@ service: send-email
 
 frameworkVersion: '2'
 
+useDotenv: true
 
 provider:
   name: aws
