@@ -68,18 +68,20 @@ describe("Email Service", () => {
     
             await expect(sendEmail("mailchimp", args)).rejects.toThrow();
         });
-    });
 
-    describe("Test main serverless function", () => {
-        test.only("Test using sendgrid", async () => {
+        test("Test Serverless function using mailchimp", async () => {
+
+            mailchimpSpy.mockReturnValue([{email: 'foo'}]);
+
             const expected = await email({body: JSON.stringify({
-                "provider": "sendgrid",
+                "provider": "mailchimp",
                 "to": ["foo@bar.com"],
                 "subject": "This is a test",
                 "body": "Testing Sendgrid API"
             })});
 
-            console.log(expected)
+
+            expect(expected).toEqual({statusCode: 200, body: expect.anything()});
         });
     });
 });
