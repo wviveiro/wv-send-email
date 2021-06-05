@@ -2,6 +2,6 @@
 export interface ServerlessEvent {
     /** Body of a POST request */
     body: string,
-    // eslint-disabled-next-line
+    // eslint-disable-next-line
     [x: string]: any
 }

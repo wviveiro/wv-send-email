@@ -6,7 +6,7 @@ export interface Email {
     body: string,
     cc?: string[],
     bcc?: string[]
-};
+}
 
 export interface Recipient {
     email: string,
@@ -24,4 +24,27 @@ export interface MailChimpResult {
 export interface MailchimpError {
     message: string,
     name: "Error"
+}
+
+export interface SGResult {
+    statusCode: number,
+    // eslint-disable-next-line
+    body: any
+}
+
+export interface SGEmailData {
+    email: string,
+    name?: string
+}
+
+export interface SGMessage {
+    from: {
+        email: string,
+        name?: string
+    },
+    to: SGEmailData[],
+    cc?: SGEmailData[],
+    bcc?: SGEmailData[],
+    subject: string,
+    text: string
 }

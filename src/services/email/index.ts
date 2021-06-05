@@ -2,7 +2,9 @@ import {validate} from 'email-validator';
 import { result } from '../result';
 import { safeJsonParse } from '../safe-json-parse';
 import { sendEmailMailchimp } from './providers/mailchimp';
-import type { Email, Provider } from './interface';
+import { sendEmailSendGrid } from './providers/sendgrid';
+import { MailchimpResult } from '@mailchimp/mailchimp_transactional';
+import type { Email, Provider, SGResult } from './interface';
 import type { Response, Body } from '../result/interface';
 import type { ServerlessEvent } from '../../interface/serverless/interface';
 
@@ -11,7 +13,7 @@ import type { ServerlessEvent } from '../../interface/serverless/interface';
  *
  * @author Wellington Viveiro <wviveiro@gmail.com>
  **/
-export const sendEmail = async (provider:Provider, {to, subject, body, cc, bcc}: Email) => {
+export const sendEmail = async (provider:Provider, {to, subject, body, cc, bcc}: Email): Promise<SGResult | MailchimpResult[]> => {
     // Check if provider is correct
     if (!["mailchimp", "sendgrid"].includes(provider)) {
         throw new Error("Invalid Provider");
@@ -40,10 +42,21 @@ export const sendEmail = async (provider:Provider, {to, subject, body, cc, bcc}:
         });
 
         return result;
+    } else if (provider === "sendgrid") {
+        // Send email using sendgrid provider
+        const result = await sendEmailSendGrid({
+            to,
+            subject,
+            body,
+            cc,
+            bcc
+        });
+
+        return result;
     }
 
 
-    throw new Error("Only mailchimp implemented");
+    throw new Error("No provider found");
 }
 
 /**

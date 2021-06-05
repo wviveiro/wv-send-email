@@ -1,6 +1,6 @@
 import env from "../../../../constants";
-import type { Email, MailchimpError, MailChimpResult, Recipient } from "../../interface";
 import mailchimp from "@mailchimp/mailchimp_transactional";
+import type { Email, MailchimpError, MailChimpResult, Recipient } from "../../interface";
 import type { MailchimpResult } from "@mailchimp/mailchimp_transactional";
 
 
@@ -16,7 +16,7 @@ export const sendEmailMailchimp = async ({to, subject, body, cc, bcc}: Email): P
     if (!MC_FROM_EMAIL) throw new Error('Invalid Mailchimp From Email');
 
 
-    let recipients: Recipient[] = [
+    const recipients: Recipient[] = [
         ...organiseRecipients("to", to),
         ...(cc ? organiseRecipients("cc", cc) : []),
         ...(bcc ? organiseRecipients("bcc", bcc) : []),
