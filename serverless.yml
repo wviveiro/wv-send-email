@@ -1,0 +1,23 @@
+service: send-email
+
+frameworkVersion: '2'
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  region: ap-southeast-2
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+
+functions:
+  hello:
+    handler: src/handler.ping
+    events:
+      - http:
+          path: /
+          method: get
