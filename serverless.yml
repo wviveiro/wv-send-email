@@ -15,9 +15,9 @@ plugins:
   - serverless-dotenv-plugin
 
 functions:
-  hello:
-    handler: src/handler.ping
+  email:
+    handler: src/handler.email
     events:
       - http:
-          path: /
-          method: get
+          path: /email
+          method: post
