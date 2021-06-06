@@ -1,5 +1,11 @@
 import type {Result, Body, Response} from './interface';
 
+// TODO Fix CORS properly
+const headers = {
+'Access-Control-Allow-Origin': '*',
+'Access-Control-Allow-Credentials': true,
+}
+
 /**
  * Result object
  * 
@@ -15,6 +21,7 @@ export const result: Result = {
 
             return {
                 statusCode: 200,
+                headers,
                 body: JSON.stringify(body)
             }
         }
@@ -23,6 +30,7 @@ export const result: Result = {
 
         return {
             statusCode: 200,
+            headers,
             body: JSON.stringify(response)
         } 
     },
@@ -30,11 +38,13 @@ export const result: Result = {
         if (typeof response === 'string') {
             const body:Body = {
                 success: false,
+                headers,
                 message: response
             }
 
             return {
                 statusCode: 500,
+                headers,
                 body: JSON.stringify(body)
             }
         }
@@ -43,6 +53,7 @@ export const result: Result = {
 
         return {
             statusCode: 500,
+            headers,
             body: JSON.stringify(response)
         } 
     }

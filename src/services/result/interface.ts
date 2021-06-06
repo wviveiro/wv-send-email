@@ -2,7 +2,8 @@
 // Used for serverless as response
 export interface Response {
     statusCode: 200 | 500 | 404, // Limiting the statuses for now
-    body: string
+    body: string,
+    headers?: {[x: string] : string | number | boolean}
 }
 
 // Main output of API. Can be a json with any value
